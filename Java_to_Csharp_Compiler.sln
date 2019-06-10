@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Java_to_Csharp_Compiler", "GPLexTutorial\Java_to_Csharp_Compiler.csproj", "{0D8A0995-956D-4BEA-B999-F4275F147897}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Java_to_Csharp_Compiler", "Java_to_Csharp_Compiler\Java_to_Csharp_Compiler.csproj", "{0D8A0995-956D-4BEA-B999-F4275F147897}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
