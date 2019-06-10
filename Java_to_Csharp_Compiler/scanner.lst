@@ -1,0 +1,99 @@
+
+// ==========================================================================
+//  GPLEX error listing for lex source file <scanner.lex>
+// ==========================================================================
+//  Version:  1.2.2
+//  Machine:  VDI-VL04-015
+//  DateTime: 9/06/2019 9:21:22 PM
+//  UserName: n9778977
+// ==========================================================================
+
+
+%namespace GPLexTutorial
+using System
+%{
+int lines=1;
+%}
+
+Digits	[0-9]
+FloatTypeSuffix [fFdD]
+ExponentIndicator [eE]
+Sign [\+\-]
+SignedInteger {Sign}*{Digits}+
+ExponentPart {ExponentIndicator}{SignedInteger}
+DecimalFloatingPointLiteral ({Digits}\.{Digits}?{ExponentPart}?{FloatTypeSuffix}?|\.{Digits}?{ExponentPart}?{FloatTypeSuffix}?|{Digits}\.{Digits}?{ExponentPart}{FloatTypeSuffix}?|{Digits}\.{Digits}?{ExponentPart}?{FloatTypeSuffix})
+Identity [a-zA-Z][a-zA-Z0-9]* 
+%%
+
+
+
+
+//keywords
+if			{ return (int)Tokens.IF; }
+else		{ return (int)Tokens.ELSE; }
+public		{ return (int)Tokens.PUBLIC;}
+static		{ return (int)Tokens.STATIC;}
+class		{ return (int)Tokens.CLASS;}
+equal		{ return (int)Tokens.Equal;}
+add			{ return (int)Tokens.Add;}
+{Digits}+	{ yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
+{Identity}	{ yylval.name = yytext;   return (int)Tokens.IDENT; }
+//^^^^^^^^
+// Warning: This pattern always overrides "false" 
+// Warning: This pattern always overrides "true" 
+// -----------------------------------------------
+true	{yylval.booltype=true; return (int)Tokens.BOOLTYPE; }
+//^^
+// Warning: This pattern always overridden by "{Identity}" 
+// --------------------------------------------------------
+false	{yylval.booltype=false; return (int)Tokens.BOOLTYPE; }
+//^^^
+// Warning: This pattern always overridden by "{Identity}" 
+// --------------------------------------------------------
+{DecimalFloatingPointLiteral} {
+								if (yytext.Substring(yytext.Length-1)=="f" || yytext.Substring(yytext.Length-1)=="F")
+								{
+									yylval.fnum=float.Parse(yytext.Substring(0,yytext.Length-1));
+									return (int)Tokens.FLOAT;
+								}
+								else if (yytext.Substring(yytext.Length-1)=="d" || yytext.Substring(yytext.Length-1)=="D")
+								{
+									yylval.dnum=double.Parse(yytext.Substring(0,yytext.Length-1));
+									return (int)Tokens.DOUBLE;
+								}
+								else
+								{
+									yylval.dnum=double.Parse(yytext);
+									return (int)Tokens.DOUBLE;
+								}
+							  }
+"="			{ return (int)Tokens.Equal;}
+"+"			{ return (int)Tokens.Add; }
+"<"			{ return '<'; }
+"("			{ return '('; }
+")"			{ return ')'; }
+"{"			{ return '{'; }
+"}"			{ return '}'; }
+"["			{ return '['; }
+"]"			{ return ']'; }
+";"			{ return ';'; }
+
+
+
+[\n]		{ lines++;    }
+[ \t\r]		/* ignore whitespace */ 
+
+.			{ throw new Exception(string.Format("Unexpected character '{0}'", yytext)); }
+
+
+
+%%
+
+
+
+public override void yyerror( string format, params object[] args )
+{
+    Console.Error.WriteLine("Error: line {0}, {1}", lines,format);
+}
+// ==========================================================================
+

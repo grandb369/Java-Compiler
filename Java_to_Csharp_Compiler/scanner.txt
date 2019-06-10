@@ -1,0 +1,118 @@
+%namespace GPLexTutorial
+%{
+int lines=0;
+%}
+
+digit [0-9]
+letter [a-zA-Z]
+
+%%
+
+if 								{ return (int)Tokens.IF; }
+else 							{ return (int)Tokens.ELSE; }
+do 								{ return (int)Tokens.DO; }
+while 							{ return (int)Tokens.WHILE; }
+for 							{ return (int)Tokens.FOR; }
+switch 							{ return (int)Tokens.SWITCH; }
+throws 							{ return (int)Tokens.THROWS; }
+null 							{ return (int)Tokens.NULL; }
+void 							{ return (int)Tokens.VOID; }
+package 						{ return (int)Tokens.PACKAGE; }
+bool 							{ return (int)Tokens.BOOL; }
+byte							{ return (int)Tokens.BYTE; }
+short							{ return (int)Tokens.SHORT; }
+int								{ return (int)Tokens.INT; }
+long							{ return (int)Tokens.LONG; }
+char							{ return (int)Tokens.CHAR; }
+float							{ return (int)Tokens.FLOAT; }
+double							{ return (int)Tokens.DOUBLE; }
+var								{ return (int)Tokens.VAR; }
+public							{ return (int)Tokens.PUBLIC; }
+private							{ return (int)Tokens.PRIVATE; }
+protected						{ return (int)Tokens.PROTECTED; }
+abstract						{ return (int)Tokens.ABSTRACT; }
+static							{ return (int)Tokens.STATIC; }
+final							{ return (int)Tokens.FINAL; }
+synchronized					{ return (int)Tokens.SYNCHRONIZED; }
+native							{ return (int)Tokens.NATIVE; }
+strictfp						{ return (int)Tokens.STRICTFP; }
+enum							{ return (int)Tokens.ENUM; }
+class							{ return (int)Tokens.CLASS; }
+new 							{ return (int)Tokens.NEW; }
+super 							{ return (int)Tokens.SUPER; }
+interface 						{ return (int)Tokens.INTERFACE; }
+"&&="							{ return (int)Tokens.BITANDEQUAL; }
+"||="							{ return (int)Tokens.BITOREQUAL; }
+continue 						{ return (int)Tokens.CONTINUE; }
+goto 							{ return (int)Tokens.GOTO; }
+"?:"		 					{ return (int)Tokens.CONDITIONALOPER; }					
+"->"  							{ return (int)Tokens.LAMBDA; }
+"==" 							{ return (int)Tokens.EQUAL; }
+">=" 							{ return (int)Tokens.LARGE; }
+"<=" 							{ return (int)Tokens.SMALL; }
+"!=" 							{ return (int)Tokens.NOTEQUAL; }
+"&&" 							{ return (int)Tokens.ANDAND; }
+"||" 							{ return (int)Tokens.OROR; }
+"++" 							{ return (int)Tokens.INCREMENT; }
+"--" 							{ return (int)Tokens.DECREMENT; }
+"<<" 							{ return (int)Tokens.LEFTSHIFT; }
+">>" 							{ return (int)Tokens.RIGHTSHIFT; }
+">>>" 							{ return (int)Tokens.FILLZERO; }
+"+=" 							{ return (int)Tokens.ADDEQUAL; }
+"-=" 							{ return (int)Tokens.SUBEQUAL; }
+"*=" 							{ return (int)Tokens.MULEQUAL; }
+"/=" 							{ return (int)Tokens.DIVEQUAL; }
+"&=" 							{ return (int)Tokens.ANDEQUAL; }
+"|=" 							{ return (int)Tokens.OREQUAL; }
+"^=" 							{ return (int)Tokens.XOREQUAL; }
+"%=" 							{ return (int)Tokens.MODEQUAL; }
+"<<=" 							{ return (int)Tokens.LEFTSHIFTEQUAL; }
+">>=" 							{ return (int)Tokens.RIGHTSHIFTEQUAL; }
+">>>=" 							{ return (int)Tokens.FILLZEROEQUAL; }
+"..." 							{ return (int)Tokens.THREEPOINTS; }
+"::" 							{ return (int)Tokens.TWOCOLONS; }
+
+{letter}({letter}|{digit})* 	{ yylval.name = yytext; return (int)Tokens.IDENT; }
+{digit}+ 						{ yylval.num = int.Parse(yytext); return (int)Tokens.NUMBER; }
+
+"=" 							{ return '='; }
+">" 							{ return '>'; }
+"<" 							{ return '<'; }
+"!" 							{ return '!'; }
+"~" 							{ return '~'; }
+"?" 							{ return '?'; }
+":" 							{ return ':'; }
+"+" 							{ return '+'; }
+"-" 							{ return '-'; }
+"*" 							{ return '*'; }
+"/" 							{ return '/'; }
+"&" 							{ return '&'; }
+"|" 							{ return '|'; }
+"^" 							{ return '^'; }
+"%" 							{ return '%'; }
+"(" 							{ return '('; }
+")" 							{ return ')'; }
+"{" 							{ return '{'; }
+"}" 							{ return '}'; }
+"[" 							{ return '['; }
+"]" 							{ return ']'; }
+";" 							{ return ';'; }
+"," 							{ return ','; }
+"." 							{ return '.'; }
+"@" 							{ return '@'; }
+
+[\n]		{ lines++;    }
+[ \t\r]      /* ignore other whitespace */
+
+. 								{
+ 								throw new Exception(
+ 								String.Format(
+ 								"unexpected character '{0}'", yytext));
+ 								}
+
+%%
+public override void yyerror( string format, params object[] args )
+{
+    System.Console.Error.WriteLine("Error: line {0}, {1}", lines,
+        String.Format(format, args));
+}

@@ -1,0 +1,51 @@
+.assembly HelloWorld
+{
+}
+.class public HelloWorld 
+{
+	.method public static void main(string [] args)
+	{
+		.entrypoint
+		.locals init ( int32 x)
+		.locals init ( int32 y)
+		.locals init ( int32 z)
+		.locals init ( float32 a)
+		.locals init ( bool c)
+		.locals init ( bool d)
+		ldc.r4 1.2E+12
+		dup
+		stloc a
+		pop
+		ldc.i4 1
+		dup
+		stloc c
+		pop
+		ldc.i4 0
+		dup
+		stloc d
+		pop
+		ldc.i4 5
+		dup
+		stloc z
+		pop
+		ldc.i4 42
+		dup
+		stloc y
+		dup
+		stloc x
+		pop
+		ldloc c
+		call void [mscorlib]System.Console::WriteLine(bool)
+		ldloc d
+		call void [mscorlib]System.Console::WriteLine(bool)
+		ldloc a
+		call void [mscorlib]System.Console::WriteLine(float32)
+		ldloc x
+		ldloc y
+		add
+		ldloc z
+		add
+		call void [mscorlib]System.Console::WriteLine(int32)
+		ret
+	}
+}
